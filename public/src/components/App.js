@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import router from '../routes/main';
 import { Link } from "react-router-dom";
 
 class App extends Component {
@@ -13,7 +12,6 @@ class App extends Component {
         <Link to="/wizard/step1">
           Create a new property
         </Link>
-        { router }
       </div>
     );
   }
