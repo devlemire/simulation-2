@@ -1,0 +1,1 @@
+// If there isn't a user object on req.session, route them to login.
