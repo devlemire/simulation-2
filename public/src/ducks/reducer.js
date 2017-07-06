@@ -8,6 +8,7 @@ const initialState = {
 
 const LOGIN = "LOGIN";
 const REGISTER = "REGISTER";
+const LOGOUT = "LOGOUT";
 
 export default ( state = initialState, action ) => {
   const { payload } = action;
@@ -22,6 +23,12 @@ export default ( state = initialState, action ) => {
     case REGISTER + '_FULFILLED':
       return {
         user: payload,
+        properties: []
+      }
+
+    case LOGOUT + '_FULFILLED':
+      return {
+        user: null,
         properties: []
       }
 
@@ -49,6 +56,17 @@ export function register( obj, history ) {
 
   return {
     type: REGISTER,
+    payload: promise
+  }
+}
+
+export function logout( history ) {
+  const promise = axios.post( `${api.auth}/logout` ).then( () => {
+    history.push('/login');
+  });
+
+  return {
+    type: LOGOUT,
     payload: promise
   }
 }

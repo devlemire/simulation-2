@@ -37,6 +37,7 @@ module.exports = {
 
   logout: ( req, res, next ) => {
     req.session.destroy();
+    console.log(req.session);
     res.status(200).send('Session destroyed.');
   }
 }
