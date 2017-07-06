@@ -13,6 +13,7 @@ module.exports = {
   readAll: ( req, res, next ) => {
     const db = req.app.get('db');
     const { id } = req.session.user;
+
     db.get_all_properties(id).then(properties => {
         res.status(200).send( properties );
     }).catch( err => console.log( err ) );
@@ -20,9 +21,11 @@ module.exports = {
 
   delete: ( req, res, next ) => {
     const db = req.app.get('db');
-    const { id } = req.session.user;
-    db.delete_property(req.params.id).then(properties => {
-      db.get_all_properties(id).then(properties => {
+    const deleteId = req.params.id;
+    const userId = req.session.user.id;
+
+    db.delete_property( deleteId ).then( () => {
+      db.get_all_properties( userId ).then(properties => {
           res.status(200).send( properties );
       }).catch( err => console.log( err ) );
     }).catch( err => console.log( err ) );

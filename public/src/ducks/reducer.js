@@ -46,6 +46,12 @@ export default ( state = initialState, action ) => {
     case CREATE_PROPERTY + '_FULFILLED':
       return Object.assign({}, state, { properties: payload });
 
+    case GET_PROPERTIES + '_FULFILLED':
+      return Object.assign({}, state, { properties: payload });
+
+    case DELETE_PROPERTY + '_FULFILLED':
+      return Object.assign({}, state, { properties: payload });
+
     case UPDATE_WIZARD: {
       let newState = Object.assign({}, state);
       for( var i in payload ) {
@@ -56,8 +62,8 @@ export default ( state = initialState, action ) => {
 
     case RESET_WIZARD: {
       let newState = Object.assign({}, state);
-      for( var i in newState.wizard ) {
-        newState.wizard[i] = null;
+      for( var j in newState.wizard ) {
+        newState.wizard[j] = null;
       }
       return newState;
     }
@@ -115,8 +121,6 @@ export function createProperty( obj, history ) {
     history.push('/dashboard');
     return response.data;
   });
-
-  console.log( obj );
 
   return {
     type: CREATE_PROPERTY,
