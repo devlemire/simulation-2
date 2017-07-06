@@ -119,7 +119,12 @@ export function getProperties() {
 }
 
 export function createProperty( obj, history ) {
-  const promise = axios.post( api.properties ).then( response => response.data );
+  const promise = axios.post( api.properties, obj ).then( response => {
+    history.push('/dashboard');
+    return response.data;
+  });
+
+  console.log( obj );
 
   return {
     type: CREATE_PROPERTY,
