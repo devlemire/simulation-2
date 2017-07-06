@@ -1,25 +1,59 @@
 module.exports = {
   create: ( req, res, next ) => {
     const db = req.app.get('db');
-    console.log('Property create hit');
-    res.status(200).send();
+    const b = req.body
+    db.create_property(1, b.name, b.description, b.address, b.city, b.state, b.zip, b.image, b.loan_amount, b.monthly_mortgage, b.desired_rent, b.recommended_rent).then(properties => {
+      db.get_all_properties(1).then(properties => {
+          res.status(200).send( properties );
+      }).catch(function(err) {
+        console.log(err);
+      })
+    }).catch(function(err) {
+      console.log(err);
+    })
   },
 
   read: ( req, res, next ) => {
     const db = req.app.get('db');
-    console.log('Property read hit:', req.params.id);
-    res.status(200).send();
+    db.get_property_by_id(1, req.params.id).then(properties => {
+        res.status(200).send( properties );
+    }).catch(function(err) {
+      console.log(err);
+    })
   },
 
   readAll: ( req, res, next ) => {
     const db = req.app.get('db');
-    console.log('Property read hit');
-    res.status(200).send();
+    db.get_all_properties(1).then(properties => {
+        res.status(200).send( properties );
+    }).catch(function(err) {
+      console.log(err);
+    })
   },
-  
+
+  update: ( req, res, next ) => {
+    const db = req.app.get('db');
+    db.update_property(req.session.user, req.params.id).then(properties => {
+      db.get_all_properties(1).then(properties => {
+          res.status(200).send( properties );
+      }).catch(function(err) {
+        console.log(err);
+      })
+    }).catch(function(err) {
+      console.log(err);
+    })
+  },
+
   delete: ( req, res, next ) => {
     const db = req.app.get('db');
-    console.log('Property delete hit', req.params.id);
-    res.status(200).send();
+    db.delete_property(req.session.user, req.params.id).then(properties => {
+      db.get_all_properties(1).then(properties => {
+          res.status(200).send( properties );
+      }).catch(function(err) {
+        console.log(err);
+      })
+    }).catch(function(err) {
+      console.log(err);
+    })
   }
 }
