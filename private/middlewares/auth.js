@@ -6,7 +6,7 @@ module.exports = ( req, res, next ) => {
       next();
     } else {
       console.log('User is not authenticated. Back to login.')
-      res.redirect('/login');
+      res.status(500).send('Not authorized.');
     }
   } else {
     next();

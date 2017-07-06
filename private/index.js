@@ -18,7 +18,7 @@ app.use( session({
   resave: false,
   saveUninitialized: false
 }));
-// app.use( require(`${__dirname}/middlewares/auth`) );
+app.use( require(`${__dirname}/middlewares/auth`) );
 app.use( express.static(`${__dirname}/../public/build`) );
 
 app.use( '/api/auth', require(`${__dirname}/routes/user_router`) );
