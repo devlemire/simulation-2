@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Filter from "./Filter/Filter";
 
 import { Link } from "react-router-dom";
-import { logout, getProperties, deleteProperty } from "../../ducks/reducer";
+import { logout, getProperties, deleteProperty, filterProperties } from "../../ducks/reducer";
 import { connect } from "react-redux";
 
 import Property from './Property/Property';
@@ -14,8 +14,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { history, logout, properties, deleteProperty } = this.props;
-    console.log('PROPS:', this.props);
+    const { history, logout, properties, deleteProperty, getProperties, filterProperties } = this.props;
 
     const propertyComponents = properties.map( prop => (
       <Property
@@ -44,7 +43,7 @@ class Dashboard extends Component {
           <button>Add new property</button>
         </Link>
 
-        <Filter />
+        <Filter getProperties={ getProperties } filterProperties={ filterProperties } />
 
         <br />
         <br />
@@ -62,4 +61,4 @@ class Dashboard extends Component {
   }
 }
 
-export default connect( state => ({ user: state.user, properties: state.properties }), { logout, getProperties, deleteProperty } )( Dashboard );
+export default connect( state => ({ user: state.user, properties: state.properties }), { logout, getProperties, deleteProperty, filterProperties } )( Dashboard );

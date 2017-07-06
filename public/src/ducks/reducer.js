@@ -26,6 +26,7 @@ const LOGOUT = "LOGOUT";
 const GET_PROPERTIES = "GET_PROPERTIES";
 const CREATE_PROPERTY = "CREATE_PROPERTY";
 const DELETE_PROPERTY = "DELETE_PROPERTY";
+const FILTER_PROPERTIES = "FILTER_PROPERTIES";
 
 const UPDATE_WIZARD = "UPDATE_WIZARD";
 const RESET_WIZARD = "RESET_WIZARD";
@@ -50,6 +51,9 @@ export default ( state = initialState, action ) => {
       return Object.assign({}, state, { properties: payload });
 
     case DELETE_PROPERTY + '_FULFILLED':
+      return Object.assign({}, state, { properties: payload });
+
+    case FILTER_PROPERTIES + '_FULFILLED':
       return Object.assign({}, state, { properties: payload });
 
     case UPDATE_WIZARD: {
@@ -133,6 +137,15 @@ export function deleteProperty( id ) {
 
   return { 
     type: DELETE_PROPERTY,
+    payload: promise
+  }
+}
+
+export function filterProperties( amount ) {
+  const promise = axios.get( `${api.properties}/filter?amount=${amount}` ).then( response => response.data );
+
+  return {
+    type: FILTER_PROPERTIES,
     payload: promise
   }
 }

@@ -29,5 +29,13 @@ module.exports = {
           res.status(200).send( properties );
       }).catch( err => console.log( err ) );
     }).catch( err => console.log( err ) );
+  },
+
+  filter: ( req, res, next ) => {
+    const db = req.app.get('db');
+    const { amount } = req.query;
+    db.filter_properties([ amount, req.session.user.id ]).then( properties => {
+      res.status(200).send(properties);
+    });
   }
-}
+};
