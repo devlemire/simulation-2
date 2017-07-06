@@ -2,8 +2,8 @@ module.exports = {
   create: ( req, res, next ) => {
     const db = req.app.get('db');
     const b = req.body
-    db.create_property(1, b.name, b.description, b.address, b.city, b.state, b.zip, b.image, b.loan_amount, b.monthly_mortgage, b.desired_rent, b.recommended_rent).then(properties => {
-      db.get_all_properties(1).then(properties => {
+    db.create_property(req.session.user.id, b.name, b.description, b.address, b.city, b.state, b.zip, b.image, b.loan_amount, b.monthly_mortgage, b.desired_rent, b.recommended_rent).then(properties => {
+      db.get_all_properties(req.session.user.id).then(properties => {
           res.status(200).send( properties );
       }).catch(function(err) {
         console.log(err);
@@ -15,7 +15,7 @@ module.exports = {
 
   readAll: ( req, res, next ) => {
     const db = req.app.get('db');
-    db.get_all_properties(1).then(properties => {
+    db.get_all_properties(req.session.user.id).then(properties => {
         res.status(200).send( properties );
     }).catch(function(err) {
       console.log(err);
@@ -24,8 +24,8 @@ module.exports = {
 
   delete: ( req, res, next ) => {
     const db = req.app.get('db');
-    db.delete_property(req.session.user, req.params.id).then(properties => {
-      db.get_all_properties(1).then(properties => {
+    db.delete_property(req.params.id).then(properties => {
+      db.get_all_properties(req.session.user.id).then(properties => {
           res.status(200).send( properties );
       }).catch(function(err) {
         console.log(err);
