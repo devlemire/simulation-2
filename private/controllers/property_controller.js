@@ -2,8 +2,7 @@ module.exports = {
   create: ( req, res, next ) => {
     const db = req.app.get('db');
     const b = req.body
-    const { id } = req.session.user; 
-
+    const { id } = req.session.user;
     db.create_property(id, b.name, b.description, b.address, b.city, b.state, b.zip, b.image, b.loan_amount, b.monthly_mortgage, b.desired_rent, b.recommended_rent).then(properties => {
       db.get_all_properties(id).then(properties => {
           res.status(200).send( properties );
@@ -14,7 +13,6 @@ module.exports = {
   readAll: ( req, res, next ) => {
     const db = req.app.get('db');
     const { id } = req.session.user;
-
     db.get_all_properties(id).then(properties => {
         res.status(200).send( properties );
     }).catch( err => console.log( err ) );
@@ -22,14 +20,11 @@ module.exports = {
 
   delete: ( req, res, next ) => {
     const db = req.app.get('db');
-    db.delete_property(req.session.user, req.params.id).then(properties => {
-      db.get_all_properties(1).then(properties => {
+    const { id } = req.session.user;
+    db.delete_property(req.params.id).then(properties => {
+      db.get_all_properties(id).then(properties => {
           res.status(200).send( properties );
-      }).catch(function(err) {
-        console.log(err);
-      })
-    }).catch(function(err) {
-      console.log(err);
-    })
+      }).catch( err => console.log( err ) );
+    }).catch( err => console.log( err ) );
   }
 }
