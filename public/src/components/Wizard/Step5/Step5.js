@@ -2,14 +2,14 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateWizard, createProperty } from "../../../ducks/reducer";
+import { updateWizard, resetWizard, createProperty } from "../../../ducks/reducer";
 
 class Step5 extends Component {
   constructor(props) {
     super(props);
     const { wizard } = this.props;
     this.state={ 
-      recommended_rent: wizard.recommended_rent || parseInt(wizard.monthly_mortgage) * 1.25,
+      recommended_rent: wizard.recommended_rent || parseInt(wizard.monthly_mortgage, 10) * 1.25,
       desired_rent: wizard.desired_rent || ''
     }
 
@@ -22,18 +22,19 @@ class Step5 extends Component {
   }
   
   finishWizard() {
-    const { updateWizard, createProperty, history, wizard } = this.props;
+    const { history, wizard, createProperty, resetWizard } = this.props;
     const { recommended_rent, desired_rent } = this.state;
     let wizardProps = Object.assign({}, wizard);
     wizardProps.recommended_rent = recommended_rent;
     wizardProps.desired_rent = desired_rent;
 
+    resetWizard();
     createProperty( wizardProps, history );
   }
 
   render() {
     const { recommended_rent, desired_rent } = this.state;
-    const { updateWizard, createProperty } = this.props;
+    const { updateWizard } = this.props;
 
     return (
       <div>
@@ -58,4 +59,4 @@ class Step5 extends Component {
   }
 }
 
-export default connect( state => ({ wizard: state.wizard }), { updateWizard, createProperty } )( Step5 );
+export default connect( state => ({ wizard: state.wizard }), { updateWizard, createProperty, resetWizard } )( Step5 );

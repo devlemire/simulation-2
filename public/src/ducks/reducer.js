@@ -35,24 +35,16 @@ export default ( state = initialState, action ) => {
 
   switch( action.type ) {
     case LOGIN + '_FULFILLED':
-      return {
-        user: payload,
-        properties: []
-      }
+      return Object.assign({}, state, { user: payload, properties: [] })
 
     case REGISTER + '_FULFILLED':
-      return {
-        user: payload,
-        properties: []
-      }
+      return Object.assign({}, state, { user: payload, properties: [] })
 
     case LOGOUT + '_FULFILLED':
-      return {
-        user: null,
-        properties: []
-      }
+      return Object.assign({}, initialState);
 
-    
+    case CREATE_PROPERTY + '_FULFILLED':
+      return Object.assign({}, state, { properties: payload });
 
     case UPDATE_WIZARD: {
       let newState = Object.assign({}, state);
@@ -64,11 +56,11 @@ export default ( state = initialState, action ) => {
 
     case RESET_WIZARD: {
       let newState = Object.assign({}, state);
-      newState.wizard.map( prop => null );
-      console.log('RESET WIZARD:', newState.wizard);
+      for( var i in newState.wizard ) {
+        newState.wizard[i] = null;
+      }
       return newState;
     }
-
 
     default: return state;
   }
