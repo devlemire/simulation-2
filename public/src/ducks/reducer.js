@@ -43,7 +43,7 @@ export function login( obj, history ) {
 
 export function register( obj, history ) {
   const promise = axios.post( `${api.auth}/register`, obj ).then( response => {
-    history.push('/login');
+    history.push('/dashboard');
     return response.data;
   });
 
