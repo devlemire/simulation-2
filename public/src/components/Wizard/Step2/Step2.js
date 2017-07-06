@@ -13,6 +13,10 @@ export default class Step2 extends Component {
         <Link to="/wizard/step1">
           Previous Step
         </Link>
+
+        <Link to="/wizard/step3">
+          Next Step
+        </Link>
       </div>
     )
   }
