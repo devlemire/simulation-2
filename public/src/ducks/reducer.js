@@ -10,6 +10,10 @@ const LOGIN = "LOGIN";
 const REGISTER = "REGISTER";
 const LOGOUT = "LOGOUT";
 
+const GET_PROPERTIES = "GET_PROPERTIES";
+const CREATE_PROPERTY = "CREATE_PROPERTY";
+const DELETE_PROPERTY = "DELETE_PROPERTY";
+
 export default ( state = initialState, action ) => {
   const { payload } = action;
 
