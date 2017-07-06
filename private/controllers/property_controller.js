@@ -20,14 +20,11 @@ module.exports = {
 
   delete: ( req, res, next ) => {
     const db = req.app.get('db');
+    const { id } = req.session.user;
     db.delete_property(req.params.id).then(properties => {
-      db.get_all_properties(req.session.user.id).then(properties => {
+      db.get_all_properties(id).then(properties => {
           res.status(200).send( properties );
-      }).catch(function(err) {
-        console.log(err);
-      })
-    }).catch(function(err) {
-      console.log(err);
-    })
+      }).catch( err => console.log( err ) );
+    }).catch( err => console.log( err ) );
   }
 }
