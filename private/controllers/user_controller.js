@@ -23,8 +23,15 @@ module.exports = {
     const db = req.app.get('db');
     const { username, password } = req.body;
 
-    db.register_user([ username, password ]).then( () => {
-      res.status(200).send();
+    db.register_user([ username, password ]).then( data => {
+      const user = data[0];
+
+      req.session.user = {
+        id: user.userid,
+        username: user.username
+      }
+
+      res.status(200).send( req.session.user );
     }).catch( err => res.status(500).send( err ) );
   },
 

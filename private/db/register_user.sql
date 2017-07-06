@@ -1,1 +1,1 @@
-INSERT INTO Users ( username, password ) VALUES ( $1, $2 );
+INSERT INTO Users ( username, password ) VALUES ( $1, $2 ) RETURNING *;

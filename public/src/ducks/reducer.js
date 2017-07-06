@@ -15,16 +15,16 @@ export default ( state = initialState, action ) => {
   switch( action.type ) {
     case LOGIN + '_FULFILLED':
       return {
-        user: payload.data,
+        user: payload,
         properties: []
       }
 
     case REGISTER + '_FULFILLED':
       return {
-        user: payload.data,
+        user: payload,
         properties: []
       }
-      
+
     default: return state;
   }
 }
