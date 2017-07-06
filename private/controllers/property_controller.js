@@ -13,32 +13,10 @@ module.exports = {
     })
   },
 
-  read: ( req, res, next ) => {
-    const db = req.app.get('db');
-    db.get_property_by_id(1, req.params.id).then(properties => {
-        res.status(200).send( properties );
-    }).catch(function(err) {
-      console.log(err);
-    })
-  },
-
   readAll: ( req, res, next ) => {
     const db = req.app.get('db');
     db.get_all_properties(1).then(properties => {
         res.status(200).send( properties );
-    }).catch(function(err) {
-      console.log(err);
-    })
-  },
-
-  update: ( req, res, next ) => {
-    const db = req.app.get('db');
-    db.update_property(req.session.user, req.params.id).then(properties => {
-      db.get_all_properties(1).then(properties => {
-          res.status(200).send( properties );
-      }).catch(function(err) {
-        console.log(err);
-      })
     }).catch(function(err) {
       console.log(err);
     })
