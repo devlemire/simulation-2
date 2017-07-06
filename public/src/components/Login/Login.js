@@ -2,7 +2,10 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 
-export default class Login extends Component {
+import { login } from '../../ducks/reducer';
+import { connect } from "react-redux";
+
+class Login extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,6 +22,8 @@ export default class Login extends Component {
 
   render() {
     const { username, password } = this.state;
+    const { history, login } = this.props;
+
     return (
       <div>
         <span>Username:</span>
@@ -28,7 +33,7 @@ export default class Login extends Component {
         <input value={ password } type="password" onChange={ (e) => this.handleChange('password', e.target.value) } />
         <br />
         <br />
-        <button>Login</button>
+        <button onClick={ () => login( { username, password }, history ) }>Login</button>
         <Link to="/register">
           <button>Register</button>
         </Link>
@@ -36,3 +41,5 @@ export default class Login extends Component {
     )
   }
 }
+
+export default connect( state => state, { login } )( Login );
