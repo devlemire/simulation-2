@@ -3,12 +3,32 @@ import api from "../api";
 
 const initialState = {
   user: null,
-  properties: []
+  properties: [],
+  wizard: {
+    name: null,
+    description: null,
+    address: null,
+    city: null,
+    state: null,
+    zip: null,
+    image: null,
+    loan_amount: null,
+    monthly_mortgage: null,
+    desired_rent: null,
+    recommended_rent: null
+  }
 };
 
 const LOGIN = "LOGIN";
 const REGISTER = "REGISTER";
 const LOGOUT = "LOGOUT";
+
+const GET_PROPERTIES = "GET_PROPERTIES";
+const CREATE_PROPERTY = "CREATE_PROPERTY";
+const DELETE_PROPERTY = "DELETE_PROPERTY";
+
+const UPDATE_WIZARD = "UPDATE_WIZARD";
+const RESET_WIZARD = "RESET_WIZARD";
 
 export default ( state = initialState, action ) => {
   const { payload } = action;
@@ -31,6 +51,24 @@ export default ( state = initialState, action ) => {
         user: null,
         properties: []
       }
+
+    
+
+    case UPDATE_WIZARD: {
+      let newState = Object.assign({}, state);
+      for( var i in payload ) {
+        newState.wizard[i] = payload[i];
+      }
+      return newState;
+    }
+
+    case RESET_WIZARD: {
+      let newState = Object.assign({}, state);
+      newState.wizard.map( prop => null );
+      console.log('RESET WIZARD:', newState.wizard);
+      return newState;
+    }
+
 
     default: return state;
   }
@@ -68,5 +106,51 @@ export function logout( history ) {
   return {
     type: LOGOUT,
     payload: promise
+  }
+}
+
+export function getProperties() {
+  const promise = axios.get( api.properties ).then( response => response.data );
+
+  return {
+    type: GET_PROPERTIES,
+    payload: promise
+  }
+}
+
+export function createProperty( obj, history ) {
+  const promise = axios.post( api.properties, obj ).then( response => {
+    history.push('/dashboard');
+    return response.data;
+  });
+
+  console.log( obj );
+
+  return {
+    type: CREATE_PROPERTY,
+    payload: promise
+  }
+}
+
+export function deleteProperty( id ) {
+  const promise = axios.delete( `${api.properties}/${id}` ).then( response => response.data );
+
+  return { 
+    type: DELETE_PROPERTY,
+    payload: promise
+  }
+}
+
+export function updateWizard( obj ) {
+  return {
+    type: UPDATE_WIZARD,
+    payload: obj
+  }
+}
+
+export function resetWizard() {
+  return {
+    type: RESET_WIZARD,
+    payload: null
   }
 }

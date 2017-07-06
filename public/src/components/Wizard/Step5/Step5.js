@@ -1,23 +1,61 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { updateWizard, createProperty } from "../../../ducks/reducer";
 
-export default class Step5 extends Component {
+class Step5 extends Component {
+  constructor(props) {
+    super(props);
+    const { wizard } = this.props;
+    this.state={ 
+      recommended_rent: wizard.recommended_rent || parseInt(wizard.monthly_mortgage) * 1.25,
+      desired_rent: wizard.desired_rent || ''
+    }
+
+    this.handleChange = this.handleChange.bind( this );
+    this.finishWizard = this.finishWizard.bind( this );
+  }
+
+  handleChange( prop, val ) {
+    this.setState({ [prop]: val });
+  }
+  
+  finishWizard() {
+    const { updateWizard, createProperty, history, wizard } = this.props;
+    const { recommended_rent, desired_rent } = this.state;
+    let wizardProps = Object.assign({}, wizard);
+    wizardProps.recommended_rent = recommended_rent;
+    wizardProps.desired_rent = desired_rent;
+
+    createProperty( wizardProps, history );
+  }
+
   render() {
+    const { recommended_rent, desired_rent } = this.state;
+    const { updateWizard, createProperty } = this.props;
+
     return (
       <div>
         <p>Step 5 here</p>
 
-        <p>questions and inputs will go here</p>
+        <span>Recommended Rent: { recommended_rent }</span>
 
-        <Link to="/wizard/step4">
+        <br />
+
+        <span>Desired Rent:</span>
+        <input value={ desired_rent } onChange={ (e) => this.handleChange('desired_rent', e.target.value) } />
+
+        <br />
+
+        <Link to="/wizard/step4" onClick={ () => updateWizard({ desired_rent, recommended_rent })}>
           Previous Step
         </Link>
 
-        <Link to="/dashboard">
-          Create
-        </Link>
+        <button onClick={ this.finishWizard }>Complete</button>
       </div>
     )
   }
 }
+
+export default connect( state => ({ wizard: state.wizard }), { updateWizard, createProperty } )( Step5 );
