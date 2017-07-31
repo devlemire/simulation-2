@@ -1,3 +1,8 @@
+CREATE DATABASE properties;
+
+-- Connect to the properties database before running the next command.
+-- \c properties;
+
 CREATE TABLE Properties (
   PropertyId SERIAL PRIMARY KEY,
   UserId INT,
@@ -14,3 +19,7 @@ CREATE TABLE Properties (
   RecommendedRent DECIMAL,
   FOREIGN KEY ( UserId ) REFERENCES Users(UserId)
 );
+
+CREATE TABLE Users ( UserId SERIAL PRIMARY KEY, Username TEXT, Password TEXT );
+
+INSERT INTO Users ( Username, Password ) VALUES ( 'test', 'test' );
